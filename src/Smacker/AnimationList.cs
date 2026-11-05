@@ -187,7 +187,7 @@ public class AnimationGoalIdle : AnimationGoal {
 			return true;
 		}
 
-		if (idleAnimationsIds?.Length != 0 && randomInterval <= OS.GetTicksMsec()) {
+		if (idleAnimationsIds?.Length != 0 && randomInterval <= (long)OS.GetTicksMsec()) {
 			goal.triggerID = idleAnimationsIds[GameController.r.Next(0, idleAnimationsIds.Length)];
 
 			randomInterval = (int)OS.GetTicksMsec() + 1000 * (int)(GameController.r.NextDouble() * maxTimeBetweenIntervals)+minTimeBetweenIntervals;

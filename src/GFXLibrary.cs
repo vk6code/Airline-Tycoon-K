@@ -223,10 +223,10 @@ public class GFXLibrary {
 		if (magic != "GLIB2")
 			throw new NotSupportedException("Can't handle non GLIB2 files! " + name);
 
-		f.Seek(f.GetPosition() + 5); //Skip unkown values
+		f.Seek((long)f.GetPosition() + 5); //Skip unkown values
 
 		archiveSize = f.Get32();
-		f.Seek(f.GetPosition() + 20); //Skip unkown values
+		f.Seek((long)f.GetPosition() + 20); //Skip unkown values
 
 		filesInLibrary = f.Get32() - 1; //There is always one less file than written
 		if (filesInLibrary == -1) {
@@ -234,7 +234,7 @@ public class GFXLibrary {
 			// in which cases is this possible ?
 		}
 
-		f.Seek(f.GetPosition() + 29);//Skip unkown values
+		f.Seek((long)f.GetPosition() + 29);//Skip unkown values
 
 		dataSize = f.Get32();
 	}

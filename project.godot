@@ -10,7 +10,6 @@ config_version=4
 
 _global_script_classes=[  ]
 _global_script_class_icons={
-
 }
 
 [application]
@@ -19,7 +18,7 @@ config/name="OpenATD"
 run/main_scene="res://scenes/load.tscn"
 config/project_settings_override="settings.cfg"
 config/icon="res://icon.png"
-config/atd_path="P:/Projekte/Major Games/BASE/ATD"
+config/atd_path="D:\\SteamLibrary\\steamapps\\common\\Airline Tycoon Deluxe"
 
 [audio]
 
@@ -38,7 +37,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "builder", "midi" )
+enabled=PoolStringArray( "" )
 
 [graphics]
 
@@ -58,8 +57,9 @@ locale_filter=[ 1, [  ] ]
 
 [mono]
 
-unhandled_exception_policy=1
+project/assembly_name="OpenATD"
 profiler/args="default:alloc,output=output.mlpd"
+unhandled_exception_policy=1
 
 [other]
 

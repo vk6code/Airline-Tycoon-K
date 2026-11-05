@@ -22,7 +22,7 @@ public class MouseCursor : Node2D {
 			this.state = state;
 			this.item = item;
 
-			this.additionTime = OS.GetTicksMsec();
+			this.additionTime = (uint)OS.GetTicksMsec();
 		}
 	}
 
@@ -54,7 +54,7 @@ public class MouseCursor : Node2D {
 		// if (lib.files.Count > 0) {
 		//     SetTexture (lib.files[0].GetTexture());
 		// }
-		Input.SetMouseMode(Input.MouseMode.Hidden);
+		Input.SetMouseMode(Input.MouseModeEnum.Hidden);
 	}
 
 	public void MouseEnter(Node other) {
