@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class Office : BaseRoom {
+public partial class Office : BaseRoom {
 	[Export]
 	public NodePath telephoneListPath;
 	public ListElement telephoneList;
@@ -21,7 +21,7 @@ public class Office : BaseRoom {
 		telephoneList = (ListElement)GetNode(telephoneListPath);
 
 		string player = "PL" + GameController.currentPlayerID;
-		DialogueSystem.OverrideActor(new Actor(GameController.CurrentPlayerTag, (DialogueWindow)GetTree().Root.GetNode("Game").FindNode("PLOffice")));
+		DialogueSystem.OverrideActor(new Actor(GameController.CurrentPlayerTag, (DialogueWindow)GetTree().Root.GetNode("Game").FindChild("PLOffice", true, false)));
 
 		//Idle: 0
 		playerAnims.Add(
@@ -77,7 +77,7 @@ public class Office : BaseRoom {
 		playerAnims.Play(0);
 	}
 
-	override public void _Process(float delta) {
+	override public void _Process(double delta) {
 		playerAnims.ProcessTrigger();
 	}
 

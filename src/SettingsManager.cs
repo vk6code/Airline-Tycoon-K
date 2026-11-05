@@ -65,7 +65,7 @@ public static class SettingsManager {
 
 	public static void LoadSavedData() {
 		var fields = typeof(SettingsManager).GetFields(BindingFlags.Public | BindingFlags.Static)
-											.Where(f => f.FieldType.Name.BeginsWith("SettingsValue"))
+											.Where(f => f.FieldType.Name.StartsWith("SettingsValue"))
 											.ToArray();
 
 		foreach (var field in fields) {
@@ -81,15 +81,15 @@ public static class SettingsManager {
 		return from.Substring(from.Find("/") + 1);
 	}
 
-	public static void SetSetting(string name, object value) {
+	public static void SetSetting<[MustBeVariant] T>(string name, T value) {
 		string section = GetSection(name);
 		string key = GetKey(name);
 
-		file.SetValue(section, key, value);
+		file.SetValue(section, key, Variant.From(value));
 		file.Save(settingsPath);
 	}
 
-	public static object GetSetting(string name, object @default = null) {
+	public static T GetSetting<[MustBeVariant] T>(string name, T @default = default) {
 		string section = GetSection(name);
 		string key = GetKey(name);
 
@@ -97,8 +97,7 @@ public static class SettingsManager {
 			SetSetting(name, @default);
 			return @default;
 		}
-		object value = file.GetValue(section, key, @default);
-		return value;
+		return file.GetValue(section, key, Variant.From(@default)).As<T>();
 	}
 }
 
@@ -106,7 +105,7 @@ public interface ISettingsValue {
 	void Load();
 }
 
-public class SettingsValue<T> : ISettingsValue {
+public partial class SettingsValue<[MustBeVariant] T> : ISettingsValue {
 	public Action<T> SetValue;
 	public Func<T> GetValue;
 	public T value;
@@ -128,13 +127,6 @@ public class SettingsValue<T> : ISettingsValue {
 	}
 
 	public void Load() {
-		SetValue((T)SettingsManager.GetSetting(settingsName, GetDefault(typeof(T))));
-	}
-
-	public static object GetDefault(Type type) {
-		if (type.IsValueType) {
-			return Activator.CreateInstance(type);
-		}
-		return null;
+		SetValue(SettingsManager.GetSetting<T>(settingsName));
 	}
 }

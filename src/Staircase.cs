@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class Staircase : Node2D {
+public partial class Staircase : Node2D {
 	[Export]
 	public bool isUpstairs;
 
@@ -16,8 +16,8 @@ public class Staircase : Node2D {
 
 		Queue<Vector2> originalPath = new Queue<Vector2>(character.path);
 		character.path.Clear();
-		character.path.Enqueue(new Vector2(0, -30) + GetGlobalPosition());
-		character.path.Enqueue(new Vector2(52, -54) + GetGlobalPosition());
+		character.path.Enqueue(new Vector2(0, -30) + GlobalPosition);
+		character.path.Enqueue(new Vector2(52, -54) + GlobalPosition);
 		character.shiftsFloor = false;
 		character.isInAnimation = true;
 		int oldZ = character.ZIndex;
@@ -30,9 +30,9 @@ public class Staircase : Node2D {
 			c.OnPathFinished -= teleport;
 
 			if (isUpstairs) {
-				c.Position = new Vector2(12, -260) + GetGlobalPosition();
+				c.Position = new Vector2(12, -260) + GlobalPosition;
 			} else {
-				c.Position = new Vector2(12, 260) + GetGlobalPosition();
+				c.Position = new Vector2(12, 260) + GlobalPosition;
 			}
 			c.ZIndex = oldZ;
 			c.isInAnimation = false;
@@ -44,7 +44,7 @@ public class Staircase : Node2D {
 
 	}
 	//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-	//  public override void _Process(float delta)
+	//  public override void _Process(double delta)
 	//  {
 	//      
 	//  }

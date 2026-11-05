@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class BaseCharacter : AnimatedSprite {
+public partial class BaseCharacter : AnimatedSprite2D {
 	[Export]
 	public int type;
 
@@ -11,7 +11,7 @@ public class BaseCharacter : AnimatedSprite {
 
 	List<Staircase> staircases;
 
-	KinematicBody2D collider;
+	CharacterBody2D collider;
 
 	public int dir = 1;
 	public Queue<Vector2> path;
@@ -43,17 +43,18 @@ public class BaseCharacter : AnimatedSprite {
 				staircases.Add((Staircase)n);
 		}
 
-		collider = GetNode<KinematicBody2D>("Collider");
+		collider = GetNode<CharacterBody2D>("Collider");
 
-		Frames = new SpriteFrames();
+		var spriteFrames = new SpriteFrames();
 		foreach (var keyPair in data.textures) {
-			Frames.AddAnimation(keyPair.Key.ToString());
+			spriteFrames.AddAnimation(keyPair.Key.ToString());
 			Animation = keyPair.Key.ToString();
 
 			foreach (AnimationData.TextureRef texture in keyPair.Value) {
-				Frames.AddFrame(keyPair.Key.ToString(), texture.GetTexture());
+				spriteFrames.AddFrame(keyPair.Key.ToString(), texture.GetTexture());
 			}
 		}
+		SpriteFrames = spriteFrames;
 	}
 
 	public void SetPath(Vector2 _goal) {
@@ -63,12 +64,10 @@ public class BaseCharacter : AnimatedSprite {
 		mainGoal = _goal;
 		currentGoal = mainGoal;
 
-		Update();
-
-		bool isShiftingUp = Position.y > ShiftHeight;
+		bool isShiftingUp = Position.Y > ShiftHeight;
 
 
-		shiftsFloor = mainGoal.y > ShiftHeight & Position.y < ShiftHeight | mainGoal.y < ShiftHeight & Position.y > ShiftHeight;
+		shiftsFloor = mainGoal.Y > ShiftHeight & Position.Y < ShiftHeight | mainGoal.Y < ShiftHeight & Position.Y > ShiftHeight;
 
 		OnPathFinished = null; //They probably don't want to talk to us anymore
 		OnGoalReached = null;
@@ -94,12 +93,12 @@ public class BaseCharacter : AnimatedSprite {
 	public Staircase GetNearestStaircase(bool isShiftingUp) {
 		float minDistance = Mathf.Inf;
 		Staircase closest = null;
-		Vector2 globalPos = GetGlobalPosition();//mainGoal;//GetGlobalPosition();
+		Vector2 globalPos = GlobalPosition;//mainGoal;//GlobalPosition;
 		foreach (Staircase s in staircases) {
 			if (s.isUpstairs && !isShiftingUp)
 				continue;
 
-			float dist = globalPos.DistanceTo(s.GlobalPosition); //(s.GlobalPosition.x - mainGoal.x);//globalPos.DistanceTo(s.GlobalPosition);
+			float dist = globalPos.DistanceTo(s.GlobalPosition); //(s.GlobalPosition.X - mainGoal.X);//globalPos.DistanceTo(s.GlobalPosition);
 			dist *= Mathf.Sign(dist);
 			if (dist < minDistance) {
 				minDistance = dist;
@@ -110,13 +109,14 @@ public class BaseCharacter : AnimatedSprite {
 		return closest;
 	}
 
-	override public void _Process(float delta) {
-		delta *= GameController.TimeScale;
-		SpeedScale = data.speed *GameController.TimeScale;
-		
-		Update();
+	override public void _Process(double delta) {
+		float dt = (float)(delta * GameController.TimeScale);
+		SpeedScale = data.speed * GameController.TimeScale;
+
+		if (drawDebug)
+			QueueRedraw();
 		if (path != null && path?.Count != 0) {
-			MoveOnPath(SpeedWalking * delta);
+			MoveOnPath(SpeedWalking * dt);
 		} else {
 			Animation = ((AnimationState)((int)AnimationState.NStanding + dir)).ToString();
 		}
@@ -133,7 +133,7 @@ public class BaseCharacter : AnimatedSprite {
 			SetViewDir(direction);
 
 			if (distance <= distanceToPoint && distance >= 0) {
-				Position = start.LinearInterpolate(nextPosition, distance / distanceToPoint);
+				Position = start.Lerp(nextPosition, distance / distanceToPoint);
 				break;
 			} else if (distance < 0) {
 				Position = nextPosition;
@@ -162,7 +162,7 @@ public class BaseCharacter : AnimatedSprite {
 
 
 	public void SetViewDir(Vector2 direction) {
-		float angle = Mathf.Atan2(direction.y, direction.x) - 1.5708f;
+		float angle = Mathf.Atan2(direction.Y, direction.X) - 1.5708f;
 		dir = Mathf.RoundToInt(4 * angle / (2 * Mathf.Pi) + 4) % 4;
 
 		Animation = ((AnimationState)dir).ToString();

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Godot;
 
-public class GFXLibrary {
+public partial class GFXLibrary {
 
 	public static string pathToAirlineTycoonD = "P:/Projekte/Major Games/BASE/ATD";//@"..\BASE\ATD";
 
@@ -14,7 +14,7 @@ public class GFXLibrary {
 		get { return pathToAirlineTycoonD; }
 	}
 
-	public class GFXFile {
+	public partial class GFXFile {
 		public GFXFile(GFXLibrary parentLib) {
 			parent = parentLib;
 		}
@@ -36,13 +36,13 @@ public class GFXLibrary {
 
 		public byte[] _colors;
 
-		Texture texture;
+		Texture2D texture;
 
 		public void PrepareTexture() {
 			parent.FillFileData(this);
 		}
 
-		public Texture GetTexture() {
+		public Texture2D GetTexture() {
 			if (texture == null) {
 
 				texture = CreateImageTexture();
@@ -63,12 +63,9 @@ public class GFXLibrary {
 				//GD.PrintErr("Wrong Texture Size! GFX: " + file.name);
 				return null;
 			}
-			Image image = new Image();
-			image.CreateFromData(width, height, false, Image.Format.Rgba8, _colors);
+			Image image = Image.CreateFromData(width, height, false, Image.Format.Rgba8, _colors);
 
-			ImageTexture texture = new ImageTexture();
-			texture.CreateFromImage(image);
-			texture.Flags = (int)Texture.FlagsEnum.Filter;
+			ImageTexture texture = ImageTexture.CreateFromImage(image);
 			return texture;
 		}
 	}
@@ -94,9 +91,8 @@ public class GFXLibrary {
 
 	public void GetFilesInLibrary() {
 		Open();
-		File f = handle;
+		FileAccess f = handle;
 		try {
-			f.Open(pathToGFXFile, File.ModeFlags.Read);
 			//GD.Print("Reading: " + pathToGFXFile);
 			ReadHeader(f);
 			ReadFileHeaders(f);
@@ -104,15 +100,14 @@ public class GFXLibrary {
 			GD.Print(e.Message);
 			GD.Print(e.StackTrace);
 		} finally {
-			f.Close();
+			f?.Close();
 		}
 	}
 
-	File handle;
+	FileAccess handle;
 
 	public void Open() {
-		handle = new File();
-		Error e = handle.Open(pathToGFXFile, File.ModeFlags.Read);
+		handle = FileAccess.Open(pathToGFXFile, FileAccess.ModeFlags.Read);
 	}
 
 	public void Close() {
@@ -123,12 +118,12 @@ public class GFXLibrary {
 	public void FillFileData(GFXFile file) {
 		bool disposeOfHandle = false;
 
-		if (handle?.IsOpen() != true) {
+		if (handle == null) {
 			Open();
 			disposeOfHandle = true;
 		}
 
-		handle.Seek(file.libraryOffset); // Go to the position of the gfx file in the library file
+		handle.Seek((ulong)file.libraryOffset); // Go to the position of the gfx file in the library file
 
 		int a = (int)handle.Get32(); //skip unused data - 76 in glbasis.gli
 		int fileSize = (int)handle.Get32(); //size of file in bytes
@@ -138,7 +133,7 @@ public class GFXLibrary {
 
 		byte[] colors = new byte[fileSize / 2 * 4];
 
-		handle.Seek(file.libraryOffset + 76); //Skip unneeded values
+		handle.Seek((ulong)(file.libraryOffset + 76)); //Skip unneeded values
 
 		byte[] readColors = handle.GetBuffer(fileSize);
 
@@ -196,9 +191,9 @@ public class GFXLibrary {
 	}
 
 
-	private void ReadFileHeaders(File f) {
+	private void ReadFileHeaders(FileAccess f) {
 		for (int i = 0; i < filesInLibrary; i++) {
-			f.Seek(GFXHeaderSize + i * FileHeaderSize); //Go to the current file header position
+			f.Seek((ulong)(GFXHeaderSize + i * FileHeaderSize)); //Go to the current file header position
 
 			GFXFile gfx = new GFXFile(this);
 
@@ -217,26 +212,26 @@ public class GFXLibrary {
 		}
 	}
 
-	private void ReadHeader(File f) {
+	private void ReadHeader(FileAccess f) {
 		string magic = Encoding.UTF8.GetString(f.GetBuffer(5)); //Read the header name;
 
 		if (magic != "GLIB2")
 			throw new NotSupportedException("Can't handle non GLIB2 files! " + name);
 
-		f.Seek((long)f.GetPosition() + 5); //Skip unkown values
+		f.Seek((ulong)f.GetPosition() + 5); //Skip unkown values
 
-		archiveSize = f.Get32();
-		f.Seek((long)f.GetPosition() + 20); //Skip unkown values
+		archiveSize = (long)f.Get32();
+		f.Seek((ulong)f.GetPosition() + 20); //Skip unkown values
 
-		filesInLibrary = f.Get32() - 1; //There is always one less file than written
+		filesInLibrary = (long)f.Get32() - 1; //There is always one less file than written
 		if (filesInLibrary == -1) {
 			filesInLibrary = 0;
 			// in which cases is this possible ?
 		}
 
-		f.Seek((long)f.GetPosition() + 29);//Skip unkown values
+		f.Seek((ulong)f.GetPosition() + 29);//Skip unkown values
 
-		dataSize = f.Get32();
+		dataSize = (long)f.Get32();
 	}
 
 	/*

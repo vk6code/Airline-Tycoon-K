@@ -1,3 +1,4 @@
+; Project was converted by built-in tool to Godot 4
 ; Engine configuration file.
 ; It's best edited using the editor UI and not directly,
 ; since the parameters that go here are not all obvious.
@@ -6,7 +7,7 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
+config_version=5
 
 _global_script_classes=[  ]
 _global_script_class_icons={
@@ -30,14 +31,14 @@ bus4vol=-4
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "" )
+enabled=PackedStringArray( "" )
 
 [graphics]
 
@@ -52,7 +53,7 @@ planes=false
 
 [locale]
 
-translations=PoolStringArray( "res://localization/localization.de.translation", "res://localization/localization.en.translation", "res://localization/localization.es.translation", "res://localization/localization.fr.translation", "res://localization/localization.it.translation", "res://localization/localization.nl.translation", "res://localization/localization.pt.translation", "res://localization/localization.pt_BR.translation" )
+translations=PackedStringArray( "res://localization/localization.de.translation", "res://localization/localization.en.translation", "res://localization/localization.es.translation", "res://localization/localization.fr.translation", "res://localization/localization.it.translation", "res://localization/localization.nl.translation", "res://localization/localization.pt.translation", "res://localization/localization.pt_BR.translation" )
 locale_filter=[ 1, [  ] ]
 
 [mono]
@@ -77,5 +78,5 @@ roundNumbers=false
 
 quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=0
-environment/default_clear_color=Color( 0, 0, 0, 1 )
-environment/default_environment="res://default_env.tres"
+environment/defaults/default_clear_color=Color( 0, 0, 0, 1 )
+environment/defaults/default_environment="res://default_env.tres"

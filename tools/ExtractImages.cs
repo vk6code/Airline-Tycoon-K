@@ -5,7 +5,7 @@ using SDirectory = System.IO.Directory;
 /// Headless equivalent of the Build Manager "Extract Images" button.
 /// Run: godot --path . --no-window --script res://tools/ExtractImages.cs
 /// </summary>
-public class ExtractImages : SceneTree {
+public partial class ExtractImages : SceneTree {
 	public override void _Initialize() {
 		string atdPath = (string)ProjectSettings.GetSetting("application/config/atd_path");
 

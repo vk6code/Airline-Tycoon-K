@@ -1,26 +1,26 @@
 [gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://materials/cutoutPreMult.tres" type="Material" id=1]
-[ext_resource path="res://Images/room/sabotage/SABOTAGE.res" type="Texture" id=2]
+[ext_resource path="res://Images/room/sabotage/SABOTAGE.res" type="Texture2D" id=2]
 [ext_resource path="res://Prefabs/MouseColliderRoom.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Images/room/sabotage/RAUCH00.res" type="Texture" id=4]
-[ext_resource path="res://Images/room/sabotage/RAUCH01.res" type="Texture" id=5]
-[ext_resource path="res://Images/room/sabotage/RAUCH02.res" type="Texture" id=6]
-[ext_resource path="res://Images/room/sabotage/RAUCH03.res" type="Texture" id=7]
-[ext_resource path="res://Images/room/sabotage/RAUCH04.res" type="Texture" id=8]
-[ext_resource path="res://Images/room/sabotage/RAUCH05.res" type="Texture" id=9]
-[ext_resource path="res://Images/room/sabotage/RAUCH06.res" type="Texture" id=10]
-[ext_resource path="res://Images/room/sabotage/RAUCH07.res" type="Texture" id=11]
-[ext_resource path="res://Images/room/sabotage/RAUCH08.res" type="Texture" id=12]
-[ext_resource path="res://Images/room/sabotage/RAUCH09.res" type="Texture" id=13]
-[ext_resource path="res://Images/room/sabotage/RAUCH10.res" type="Texture" id=14]
-[ext_resource path="res://Images/room/sabotage/AUGE00.res" type="Texture" id=15]
-[ext_resource path="res://Images/room/sabotage/AUGE01.res" type="Texture" id=16]
-[ext_resource path="res://Images/room/sabotage/AUGE02.res" type="Texture" id=17]
-[ext_resource path="res://Images/room/sabotage/AUGE03.res" type="Texture" id=18]
-[ext_resource path="res://Images/room/sabotage/AUGE04.res" type="Texture" id=19]
-[ext_resource path="res://Images/room/sabotage/AUGE05.res" type="Texture" id=20]
-[ext_resource path="res://Images/room/sabotage/AUGE06.res" type="Texture" id=21]
+[ext_resource path="res://Images/room/sabotage/RAUCH00.res" type="Texture2D" id=4]
+[ext_resource path="res://Images/room/sabotage/RAUCH01.res" type="Texture2D" id=5]
+[ext_resource path="res://Images/room/sabotage/RAUCH02.res" type="Texture2D" id=6]
+[ext_resource path="res://Images/room/sabotage/RAUCH03.res" type="Texture2D" id=7]
+[ext_resource path="res://Images/room/sabotage/RAUCH04.res" type="Texture2D" id=8]
+[ext_resource path="res://Images/room/sabotage/RAUCH05.res" type="Texture2D" id=9]
+[ext_resource path="res://Images/room/sabotage/RAUCH06.res" type="Texture2D" id=10]
+[ext_resource path="res://Images/room/sabotage/RAUCH07.res" type="Texture2D" id=11]
+[ext_resource path="res://Images/room/sabotage/RAUCH08.res" type="Texture2D" id=12]
+[ext_resource path="res://Images/room/sabotage/RAUCH09.res" type="Texture2D" id=13]
+[ext_resource path="res://Images/room/sabotage/RAUCH10.res" type="Texture2D" id=14]
+[ext_resource path="res://Images/room/sabotage/AUGE00.res" type="Texture2D" id=15]
+[ext_resource path="res://Images/room/sabotage/AUGE01.res" type="Texture2D" id=16]
+[ext_resource path="res://Images/room/sabotage/AUGE02.res" type="Texture2D" id=17]
+[ext_resource path="res://Images/room/sabotage/AUGE03.res" type="Texture2D" id=18]
+[ext_resource path="res://Images/room/sabotage/AUGE04.res" type="Texture2D" id=19]
+[ext_resource path="res://Images/room/sabotage/AUGE05.res" type="Texture2D" id=20]
+[ext_resource path="res://Images/room/sabotage/AUGE06.res" type="Texture2D" id=21]
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true
@@ -50,14 +50,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 960.0
-margin_top = 540.0
-margin_right = 960.0
-margin_bottom = 540.0
-rect_scale = Vector2( 2.5, 2.5 )
+offset_left = 960.0
+offset_top = 540.0
+offset_right = 960.0
+offset_bottom = 540.0
+scale = Vector2( 2.5, 2.5 )
 mouse_filter = 1
 
-[node name="SABOTAGE" type="Sprite" parent="Base"]
+[node name="SABOTAGE" type="Sprite2D" parent="Base"]
 position = Vector2( -68.6022, 0 )
 scale = Vector2( 0.981818, 0.981818 )
 texture = ExtResource( 2 )
@@ -72,13 +72,13 @@ isExitToAirport = true
 position = Vector2( 2.21127, 11.7157 )
 shape = SubResource( 1 )
 
-[node name="Flame" type="AnimatedSprite" parent="Base"]
+[node name="Flame" type="AnimatedSprite2D" parent="Base"]
 position = Vector2( -37.0306, 91.1803 )
 frames = SubResource( 2 )
 frame = 2
 playing = true
 
-[node name="Eye" type="AnimatedSprite" parent="Base"]
+[node name="Eye" type="AnimatedSprite2D" parent="Base"]
 position = Vector2( -342.512, -160.567 )
 frames = SubResource( 3 )
 frame = 2

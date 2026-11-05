@@ -17,34 +17,34 @@
 [ext_resource path="res://scenes/rooms/RoomTerrorist.tscn" type="PackedScene" id=15]
 [ext_resource path="res://scenes/rooms/RoomMainMenu.tscn" type="PackedScene" id=16]
 [ext_resource path="res://scenes/rooms/RoomManager.tscn" type="PackedScene" id=17]
-[ext_resource path="res://Images/gli/glstd/STATLIN5.res" type="Texture" id=18]
+[ext_resource path="res://Images/gli/glstd/STATLIN5.res" type="Texture2D" id=18]
 [ext_resource path="res://materials/cutoutPreMult.tres" type="Material" id=19]
-[ext_resource path="res://Images/gli/glstd/STATLIN6.res" type="Texture" id=20]
-[ext_resource path="res://Images/gli/glstd/STAT01.res" type="Texture" id=21]
-[ext_resource path="res://Images/gli/glstd/STATLIN0.res" type="Texture" id=22]
-[ext_resource path="res://Images/gli/glstd/LOGO1.res" type="Texture" id=23]
+[ext_resource path="res://Images/gli/glstd/STATLIN6.res" type="Texture2D" id=20]
+[ext_resource path="res://Images/gli/glstd/STAT01.res" type="Texture2D" id=21]
+[ext_resource path="res://Images/gli/glstd/STATLIN0.res" type="Texture2D" id=22]
+[ext_resource path="res://Images/gli/glstd/LOGO1.res" type="Texture2D" id=23]
 [ext_resource path="res://Prefabs/DialogueSystem.tscn" type="PackedScene" id=24]
 [ext_resource path="res://src/MouseCursor.cs" type="Script" id=26]
-[ext_resource path="res://Images/gli/glbasis/CURSOR.res" type="Texture" id=27]
-[ext_resource path="res://Images/gli/glbasis/CURSORH.res" type="Texture" id=28]
-[ext_resource path="res://Images/gli/glbasis/CURSORS.res" type="Texture" id=29]
-[ext_resource path="res://Images/gli/glbasis/EXIT01.res" type="Texture" id=30]
-[ext_resource path="res://Images/gli/glbasis/EXIT02.res" type="Texture" id=31]
-[ext_resource path="res://Images/gli/glbasis/EXIT03.res" type="Texture" id=32]
-[ext_resource path="res://Images/gli/glbasis/EXIT04.res" type="Texture" id=33]
-[ext_resource path="res://Images/gli/glbasis/EXIT05.res" type="Texture" id=34]
-[ext_resource path="res://Images/gli/glbasis/EXIT06.res" type="Texture" id=35]
-[ext_resource path="res://Images/gli/glbasis/EXIT07.res" type="Texture" id=36]
-[ext_resource path="res://Images/gli/glbasis/EXIT08.res" type="Texture" id=37]
-[ext_resource path="res://Images/gli/glbasis/EXIT09.res" type="Texture" id=38]
-[ext_resource path="res://Images/gli/glbasis/EXIT10.res" type="Texture" id=39]
-[ext_resource path="res://Images/gli/glbasis/EXIT11.res" type="Texture" id=40]
-[ext_resource path="res://Images/gli/glbasis/EXIT12.res" type="Texture" id=41]
-[ext_resource path="res://Images/gli/glbasis/CURSORL.res" type="Texture" id=42]
-[ext_resource path="res://Images/gli/glbasis/CURSORR.res" type="Texture" id=43]
+[ext_resource path="res://Images/gli/glbasis/CURSOR.res" type="Texture2D" id=27]
+[ext_resource path="res://Images/gli/glbasis/CURSORH.res" type="Texture2D" id=28]
+[ext_resource path="res://Images/gli/glbasis/CURSORS.res" type="Texture2D" id=29]
+[ext_resource path="res://Images/gli/glbasis/EXIT01.res" type="Texture2D" id=30]
+[ext_resource path="res://Images/gli/glbasis/EXIT02.res" type="Texture2D" id=31]
+[ext_resource path="res://Images/gli/glbasis/EXIT03.res" type="Texture2D" id=32]
+[ext_resource path="res://Images/gli/glbasis/EXIT04.res" type="Texture2D" id=33]
+[ext_resource path="res://Images/gli/glbasis/EXIT05.res" type="Texture2D" id=34]
+[ext_resource path="res://Images/gli/glbasis/EXIT06.res" type="Texture2D" id=35]
+[ext_resource path="res://Images/gli/glbasis/EXIT07.res" type="Texture2D" id=36]
+[ext_resource path="res://Images/gli/glbasis/EXIT08.res" type="Texture2D" id=37]
+[ext_resource path="res://Images/gli/glbasis/EXIT09.res" type="Texture2D" id=38]
+[ext_resource path="res://Images/gli/glbasis/EXIT10.res" type="Texture2D" id=39]
+[ext_resource path="res://Images/gli/glbasis/EXIT11.res" type="Texture2D" id=40]
+[ext_resource path="res://Images/gli/glbasis/EXIT12.res" type="Texture2D" id=41]
+[ext_resource path="res://Images/gli/glbasis/CURSORL.res" type="Texture2D" id=42]
+[ext_resource path="res://Images/gli/glbasis/CURSORR.res" type="Texture2D" id=43]
 [ext_resource path="res://src/MusicController.cs" type="Script" id=44]
 [ext_resource path="res://addons/midi/MidiPlayer.gd" type="Script" id=45]
-[ext_resource path="res://addons/midi/icon.png" type="Texture" id=46]
+[ext_resource path="res://addons/midi/icon.png" type="Texture2D" id=46]
 
 [sub_resource type="SpriteFrames" id=1]
 resource_local_to_scene = true
@@ -56,7 +56,7 @@ animations = [ {
 } ]
 
 [node name="Game" type="Node2D"]
-pause_mode = 1
+process_mode = 1
 script = ExtResource( 1 )
 _taskbar = NodePath("UI/MarginContainer/Taskbar")
 
@@ -68,33 +68,33 @@ _rooms = [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 
 layer = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_scale = Vector2( 2.5, 2.5 )
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2( 2.5, 2.5 )
 mouse_filter = 1
-custom_constants/margin_right = 0
-custom_constants/margin_top = 0
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_bottom = 0
 
 [node name="Taskbar" type="Control" parent="UI/MarginContainer"]
-margin_right = 40.0
-margin_bottom = 40.0
+offset_right = 40.0
+offset_bottom = 40.0
 mouse_filter = 1
 
 [node name="background" type="ColorRect" parent="UI/MarginContainer/Taskbar"]
-margin_top = 392.0
-margin_right = 638.0
-margin_bottom = 432.0
+offset_top = 392.0
+offset_right = 638.0
+offset_bottom = 432.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="GridContainer" type="GridContainer" parent="UI/MarginContainer/Taskbar"]
-margin_left = 247.0
-margin_top = 413.0
-margin_right = 609.423
-margin_bottom = 413.0
+offset_left = 247.0
+offset_top = 413.0
+offset_right = 609.423
+offset_bottom = 413.0
 grow_horizontal = 2
-custom_constants/hseparation = 60
+theme_override_constants/h_separation = 60
 columns = 8
 __meta__ = {
 "_edit_use_anchors_": false
@@ -102,70 +102,70 @@ __meta__ = {
 
 [node name="Control" type="Control" parent="UI/MarginContainer/Taskbar/GridContainer"]
 
-[node name="STATLIN5" type="Sprite" parent="UI/MarginContainer/Taskbar/GridContainer/Control"]
+[node name="STATLIN5" type="Sprite2D" parent="UI/MarginContainer/Taskbar/GridContainer/Control"]
 position = Vector2( 29.2245, -1.19644 )
 texture = ExtResource( 18 )
 
 [node name="Control2" type="Control" parent="UI/MarginContainer/Taskbar/GridContainer"]
-margin_left = 60.0
-margin_right = 60.0
+offset_left = 60.0
+offset_right = 60.0
 
-[node name="STATLIN5" type="Sprite" parent="UI/MarginContainer/Taskbar/GridContainer/Control2"]
+[node name="STATLIN5" type="Sprite2D" parent="UI/MarginContainer/Taskbar/GridContainer/Control2"]
 position = Vector2( 29.2245, -1.19644 )
 texture = ExtResource( 18 )
 
 [node name="Control3" type="Control" parent="UI/MarginContainer/Taskbar/GridContainer"]
-margin_left = 120.0
-margin_right = 120.0
+offset_left = 120.0
+offset_right = 120.0
 
-[node name="STATLIN5" type="Sprite" parent="UI/MarginContainer/Taskbar/GridContainer/Control3"]
+[node name="STATLIN5" type="Sprite2D" parent="UI/MarginContainer/Taskbar/GridContainer/Control3"]
 position = Vector2( 29.2245, -1.19644 )
 texture = ExtResource( 18 )
 
 [node name="Control4" type="Control" parent="UI/MarginContainer/Taskbar/GridContainer"]
-margin_left = 180.0
-margin_right = 180.0
+offset_left = 180.0
+offset_right = 180.0
 
-[node name="STATLIN5" type="Sprite" parent="UI/MarginContainer/Taskbar/GridContainer/Control4"]
+[node name="STATLIN5" type="Sprite2D" parent="UI/MarginContainer/Taskbar/GridContainer/Control4"]
 position = Vector2( 29.2245, -1.19644 )
 texture = ExtResource( 18 )
 
 [node name="Control6" type="Control" parent="UI/MarginContainer/Taskbar/GridContainer"]
-margin_left = 240.0
-margin_right = 240.0
+offset_left = 240.0
+offset_right = 240.0
 
-[node name="STATLIN5" type="Sprite" parent="UI/MarginContainer/Taskbar/GridContainer/Control6"]
+[node name="STATLIN5" type="Sprite2D" parent="UI/MarginContainer/Taskbar/GridContainer/Control6"]
 position = Vector2( 29.2245, -1.19644 )
 texture = ExtResource( 18 )
 
 [node name="Control7" type="Control" parent="UI/MarginContainer/Taskbar/GridContainer"]
-margin_left = 300.0
-margin_right = 300.0
+offset_left = 300.0
+offset_right = 300.0
 
-[node name="STATLIN5" type="Sprite" parent="UI/MarginContainer/Taskbar/GridContainer/Control7"]
+[node name="STATLIN5" type="Sprite2D" parent="UI/MarginContainer/Taskbar/GridContainer/Control7"]
 position = Vector2( 29.2245, -1.19644 )
 texture = ExtResource( 18 )
 
 [node name="Control5" type="Control" parent="UI/MarginContainer/Taskbar/GridContainer"]
-margin_left = 360.0
-margin_right = 360.0
+offset_left = 360.0
+offset_right = 360.0
 
-[node name="STATLIN6" type="Sprite" parent="UI/MarginContainer/Taskbar/GridContainer/Control5"]
+[node name="STATLIN6" type="Sprite2D" parent="UI/MarginContainer/Taskbar/GridContainer/Control5"]
 material = ExtResource( 19 )
 position = Vector2( 15.1812, -1.22086 )
 texture = ExtResource( 20 )
 
-[node name="STAT01" type="Sprite" parent="UI/MarginContainer/Taskbar/GridContainer/Control5"]
+[node name="STAT01" type="Sprite2D" parent="UI/MarginContainer/Taskbar/GridContainer/Control5"]
 material = ExtResource( 19 )
 position = Vector2( 11.6365, 9.1442 )
 texture = ExtResource( 21 )
 
-[node name="STATLIN0" type="Sprite" parent="UI/MarginContainer/Taskbar"]
+[node name="STATLIN0" type="Sprite2D" parent="UI/MarginContainer/Taskbar"]
 material = ExtResource( 19 )
 position = Vector2( 124, 411.779 )
 texture = ExtResource( 22 )
 
-[node name="LOGO1" type="Sprite" parent="UI/MarginContainer/Taskbar"]
+[node name="LOGO1" type="Sprite2D" parent="UI/MarginContainer/Taskbar"]
 position = Vector2( 38.3176, 411.779 )
 texture = ExtResource( 23 )
 
@@ -179,22 +179,22 @@ scale = Vector2( 1.5, 1.5 )
 z_index = 999
 script = ExtResource( 26 )
 
-[node name="Normal" type="Sprite" parent="UI/MouseController"]
+[node name="Normal" type="Sprite2D" parent="UI/MouseController"]
 use_parent_material = true
 texture = ExtResource( 27 )
 centered = false
 
-[node name="Hover" type="Sprite" parent="UI/MouseController"]
+[node name="Hover" type="Sprite2D" parent="UI/MouseController"]
 use_parent_material = true
 texture = ExtResource( 28 )
 centered = false
 
-[node name="Load" type="Sprite" parent="UI/MouseController"]
+[node name="Load" type="Sprite2D" parent="UI/MouseController"]
 use_parent_material = true
 texture = ExtResource( 29 )
 centered = false
 
-[node name="Exit" type="AnimatedSprite" parent="UI/MouseController"]
+[node name="Exit" type="AnimatedSprite2D" parent="UI/MouseController"]
 use_parent_material = true
 position = Vector2( -15.5213, -12.6841 )
 frames = SubResource( 1 )
@@ -202,12 +202,12 @@ frame = 4
 playing = true
 centered = false
 
-[node name="MoveLeft" type="Sprite" parent="UI/MouseController"]
+[node name="MoveLeft" type="Sprite2D" parent="UI/MouseController"]
 use_parent_material = true
 position = Vector2( 15.9929, 0.0537262 )
 texture = ExtResource( 42 )
 
-[node name="MoveRight" type="Sprite" parent="UI/MouseController"]
+[node name="MoveRight" type="Sprite2D" parent="UI/MouseController"]
 use_parent_material = true
 position = Vector2( -15.5659, 0.0537109 )
 texture = ExtResource( 43 )

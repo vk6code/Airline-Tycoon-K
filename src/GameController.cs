@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 
-public class GameController : Node2D {
+public partial class GameController : Node2D {
 	public static GameController instance;
 
 	// static GameController() {
@@ -22,7 +22,7 @@ public class GameController : Node2D {
 	}
 
 	public void SetTaskbar(bool toggle) {
-		taskbar.SetVisible(toggle);
+		taskbar.Visible = (toggle);
 	}
 
 	[Export]
@@ -44,13 +44,13 @@ public class GameController : Node2D {
 		taskbar = GetNode<Control>(_taskbar);
 
 		RoomManager.ChangeRoom("RoomMainMenu", isAirport: false);
-		GetTree().Connect("screen_resized", this, "OnScreenSizeChanged");
+		GetViewport().Connect("size_changed", new Callable(this, "OnScreenSizeChanged"));
 	}
 
 	public override void _UnhandledInput(InputEvent @event) {
 		if (@event is InputEventKey k) {
 			fastForward = false;
-			if (k.Scancode == (int)KeyList.Space) {
+			if (k.Keycode == Key.Space) {
 				//onUnhandledInput?.Invoke();
 				fastForward = k.Pressed;
 			}
@@ -61,12 +61,12 @@ public class GameController : Node2D {
 	}
 
 	public static void OnMouseClick(InputEventMouseButton m) {
-		if (m.IsPressed() && m.ButtonIndex == (int)ButtonList.Left) {
+		if (m.IsPressed() && m.ButtonIndex == MouseButton.Left) {
 			onUnhandledInput?.Invoke();
 		}
 	}
 
-	override public void _Process(float delta) {
+	override public void _Process(double delta) {
 		TimeScale = fastForward ? 20:1;
 
 	}
@@ -74,12 +74,12 @@ public class GameController : Node2D {
 	public static int TimeScale { get; set; }
 
 	public void OnScreenSizeChanged() {
-		//GetViewport().SetSizeOverride(true, new Vector2(OS.GetWindowSize().x, GetViewportRect().Size.y));
+		//GetViewport().SetSizeOverride(true, new Vector2(OS.GetWindowSize().X, GetViewportRect().Size.Y));
 		// Vector2 screenSize = OS.GetWindowSize();
 		// Viewport viewport = GetViewport();
 
-		// float scaleX = Mathf.Floor(screenSize.x / viewport.Size.x);
-		// float scaleY = Mathf.Floor(screenSize.y / viewport.Size.y);
+		// float scaleX = Mathf.Floor(screenSize.X / viewport.Size.X);
+		// float scaleY = Mathf.Floor(screenSize.Y / viewport.Size.Y);
 
 		// float scale = Mathf.Max(1, Mathf.Min(scaleX, scaleY));
 

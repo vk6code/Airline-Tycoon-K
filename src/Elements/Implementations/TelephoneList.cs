@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-class TelephoneList : ListElement {
+public partial class TelephoneList : ListElement {
 	class TelephoneListItem : ListItem {
 		public TelephoneListItem(string translationID, string room, string dialogueID) : base("", null) {
 			text = Util.Tr(translationID);

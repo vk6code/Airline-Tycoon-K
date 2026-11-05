@@ -2,7 +2,6 @@ using Godot;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Directory = System.IO.Directory;
 using Thread = System.Threading.Thread;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -10,7 +9,7 @@ using System.Security.Cryptography;
 using SystemFile = System.IO.File;
 using System.Threading;
 
-public class ATDGameLoader : Node2D {
+public partial class ATDGameLoader : Node2D {
 	private const string ATDPathConfig = "application/config/atd_path";
 	public Label loadInfo, loadInfoFiles;
 	public FileDialog selectATDPath;
@@ -44,7 +43,7 @@ public class ATDGameLoader : Node2D {
 
 	public static bool IsOriginalGamePath(string dir) {
 		try {
-			if (!Directory.Exists(dir))
+			if (!System.IO.Directory.Exists(dir))
 				throw new System.IO.DirectoryNotFoundException(dir);
 
 			GFXLibrary.pathToAirlineTycoonD = dir;
@@ -60,7 +59,7 @@ public class ATDGameLoader : Node2D {
 	}
 	private static string FindFolder(string folderName, string basePath = "") {
 		basePath = basePath == "" ? GFXLibrary.pathToAirlineTycoonD : basePath;
-		return Directory.GetDirectories(basePath, folderName, System.IO.SearchOption.AllDirectories).First();
+		return System.IO.Directory.GetDirectories(basePath, folderName, System.IO.SearchOption.AllDirectories).First();
 	}
 
 	private void LoadFiles() {
@@ -75,26 +74,25 @@ public class ATDGameLoader : Node2D {
 
 	private void SetNewGamePath() {
 		selectATDPath = GetNode<FileDialog>("FileDialog"); //Get the path to the ATD install
-		selectATDPath.Connect("dir_selected", this, nameof(ChoseFile));
-		selectATDPath.GetCancel().Connect("button_down", this, nameof(ExitGame));
-		selectATDPath.PopupCentered(new Vector2(500, 500));
+		selectATDPath.Connect("dir_selected", new Callable(this, nameof(ChoseFile)));
+		selectATDPath.GetCancelButton().Connect("button_down", new Callable(this, nameof(ExitGame)));
+		selectATDPath.PopupCentered(new Vector2I(500, 500));
 
 		directoryInvalidDialog = GetNode<AcceptDialog>("DirectoryInvalid");
-		directoryInvalidDialog.Connect("confirmed", this, nameof(AcceptDialog));
+		directoryInvalidDialog.Connect("confirmed", new Callable(this, nameof(AcceptDialog)));
 	}
 
-	public override void _Process(float delta) {
-		loadInfo.SetText("Loading " + (((OS.GetTicksMsec() / 500) % 3 == 0) ? "." : ((OS.GetTicksMsec() / 500) % 3 == 1) ? ".." : "..."));
+	public override void _Process(double delta) {
+		loadInfo.Text = ("Loading " + (((Time.GetTicksMsec() / 500) % 3 == 0) ? "." : ((Time.GetTicksMsec() / 500) % 3 == 1) ? ".." : "..."));
 
 		if (otherDataLoaded) {
 			//LoadAllFiles();
-			GetTree().ChangeScene("res://scenes/base.tscn");
+			GetTree().ChangeSceneToFile("res://scenes/base.tscn");
 		}
 
 	}
 
 	public void ExitGame() {
-		selectATDPath.GetCloseButton().
 		GetTree().Quit();
 	}
 
@@ -112,7 +110,7 @@ public class ATDGameLoader : Node2D {
 	}
 
 	public void AcceptDialog() {
-		selectATDPath.PopupCentered(new Vector2(500, 500)); //try try and try again
+		selectATDPath.PopupCentered(new Vector2I(500, 500)); //try try and try again
 	}
 
 	public static Exception TryAction(Action action) {

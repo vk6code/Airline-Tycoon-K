@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 
-public class MouseCursor : Node2D {
+public partial class MouseCursor : Node2D {
 	public static MouseCursor instance;
 
 	List<Node2D> states = new List<Node2D>();
@@ -22,7 +22,7 @@ public class MouseCursor : Node2D {
 			this.state = state;
 			this.item = item;
 
-			this.additionTime = (uint)OS.GetTicksMsec();
+			this.additionTime = (uint)Time.GetTicksMsec();
 		}
 	}
 
@@ -54,7 +54,7 @@ public class MouseCursor : Node2D {
 		// if (lib.files.Count > 0) {
 		//     SetTexture (lib.files[0].GetTexture());
 		// }
-		Input.SetMouseMode(Input.MouseModeEnum.Hidden);
+		Input.MouseMode = Input.MouseModeEnum.Hidden;
 	}
 
 	public void MouseEnter(Node other) {
@@ -154,15 +154,15 @@ public class MouseCursor : Node2D {
 			}
 		}
 
-		states.ForEach((s) => s.SetVisible(false));
+		states.ForEach((s) => s.Visible = (false));
 
 		//Moving overrides other modes!
 		if (movingCamera == 0) {
-			states[(int)toState].SetVisible(true);
+			states[(int)toState].Visible = (true);
 		} else {
 			MouseState moveState = movingCamera == 1 ? MouseState.MoveRight : MouseState.MoveLeft;
 
-			states[(int)moveState].SetVisible(true);
+			states[(int)moveState].Visible = (true);
 		}
 	}
 
@@ -194,7 +194,7 @@ public class MouseCursor : Node2D {
 				}
 
 				if (handled)
-					GetTree().SetInputAsHandled();
+					GetViewport().SetInputAsHandled();
 			}
 		}
 	}
@@ -207,7 +207,7 @@ public class MouseCursor : Node2D {
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(float delta) {
+	public override void _Process(double delta) {
 		SetPosition(GetGlobalMousePosition());
 
 		CleanHovers();

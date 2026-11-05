@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Container for airport relevant objects like escelators or room entrances
 /// </summary>
-public class AirportViewController : Node2D {
+public partial class AirportViewController : Node2D {
 	public static AirportViewController instance;
 
 	[Export]

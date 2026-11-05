@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using Environment = System.Environment;
 
 //TODO: Add skip function
-public class DialogueSystem : Node2D {
+public partial class DialogueSystem : Node2D {
 	static DialogueSystem instance;
 	public static Queue<Action> dialogueCommandQueue = new Queue<Action>();
 
@@ -17,7 +17,7 @@ public class DialogueSystem : Node2D {
 	public static Action onDialogueStart;
 
 	public static SoundPlayer currentSound;
-	public static Viewport otherRoomParent; //For telephone call
+	public static SubViewport otherRoomParent; //For telephone call
 	public static Node2D otherRoomHolder;
 	public static bool isTelephoneCall;
 
@@ -28,7 +28,7 @@ public class DialogueSystem : Node2D {
 		}
 		instance = this;
 
-		otherRoomParent = (Viewport)FindNode("OtherTelephoneRoom");
+		otherRoomParent = (SubViewport)FindChild("OtherTelephoneRoom", true, false);
 		otherRoomHolder = ((Node2D)otherRoomParent.GetParent());
 		otherRoomHolder.Hide();
 
@@ -39,7 +39,7 @@ public class DialogueSystem : Node2D {
 	}
 
 
-	override public void _Process(float _dt) {
+	override public void _Process(double _dt) {
 		if (dialogueCommandQueue?.Count != 0) {
 			dialogueCommandQueue.Dequeue().Invoke();
 		}
@@ -127,7 +127,7 @@ public class DialogueSystem : Node2D {
 	}
 
 	private static void AddPlayerActor() {
-		AddActor(new Actor(GameController.CurrentPlayerTag, (DialogueWindow)instance.FindNode("PL")));
+		AddActor(new Actor(GameController.CurrentPlayerTag, (DialogueWindow)instance.FindChild("PL", true, false)));
 	}
 	public static void CleanActors() {
 		if (instance == null)
@@ -419,7 +419,7 @@ public class DialogueSystem : Node2D {
 			for (int i = 0; i < GameController.playerCompanyNames.Length; i++) {
 				string player = GameController.playerCompanyNames[i];
 
-				if (playerName.BeginsWith(player))
+				if (playerName.StartsWith(player))
 					return i + 1;
 			}
 

@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Text;
 
-public class DialogueWindow : Control {
+public partial class DialogueWindow : Control {
 	//public Label textLabel;
 
 	public VBoxContainer lineContainer;
@@ -30,10 +30,10 @@ public class DialogueWindow : Control {
 		lineContainer = GetNode<VBoxContainer>("Content");
 
 		// container = GetNode<MarginContainer>("Margin");
-		lineContainer.Connect("resized", this, "OnContainerSizeChange");
+		lineContainer.Connect("resized", new Callable(this, "OnContainerSizeChange"));
 
 		speechbubble = GetNode<HBoxContainer>("SpeechbubbleFlexible");
-		rightTexture = GetNode<NinePatchRect>("SpeechbubbleFlexible/RightSide/Flip/Texture");
+		rightTexture = GetNode<NinePatchRect>("SpeechbubbleFlexible/RightSide/Flip/Texture2D");
 		head = GetNodeOrNull<TextureRect>("Head");
 
 		linePrefab = (PackedScene)ResourceLoader.Load(speechbubbleLinePrefab);
@@ -41,33 +41,33 @@ public class DialogueWindow : Control {
 		lines = new List<Control>();
 		linesDebug = new List<Control>();
 
-		baseSize = RectSize;
-		basePosition = RectPosition;
+		baseSize = Size;
+		basePosition = Position;
 
-		HeadPosition = head?.RectGlobalPosition ?? default(Vector2);
+		HeadPosition = head?.GlobalPosition ?? default(Vector2);
 
-		this.Update();
+		QueueRedraw();
 		this.Hide();
 	}
 
 	public void OnContainerSizeChange() {
 		Vector2 innerMargin = new Vector2(50, 10);
 		//Add padding:
-		speechbubble.RectPosition = lineContainer.RectPosition - innerMargin / 2;
-		speechbubble.RectSize = lineContainer.RectSize + innerMargin;
+		speechbubble.Position = lineContainer.Position - innerMargin / 2;
+		speechbubble.Size = lineContainer.Size + innerMargin;
 
 		//Move to the right position, with the new margin in mind
-		RectSize = baseSize - innerMargin;
-		RectPosition = basePosition + innerMargin / 2;
+		Size = baseSize - innerMargin;
+		Position = basePosition + innerMargin / 2;
 
 		//Move the Speechbubble down a bit when the box is bigger than normal 
 		//to mimic the original behavior for longer player text.
 		//Except when we are in our office, there we have a different speechbubble!
 		if (DialogueSystem.currentlyTalking == GameController.CurrentPlayerTag && RoomManager.currentRoom != "RoomOffice") {
-			float heightDifference = speechbubble.RectSize.y - 61;
+			float heightDifference = speechbubble.Size.Y - 61;
 			heightDifference = Mathf.Min(heightDifference, 140);
 
-			RectPosition = RectPosition + new Vector2(0, heightDifference) / 2;
+			Position = Position + new Vector2(0, heightDifference) / 2;
 		}
 
 		head?.SetGlobalPosition(HeadPosition);
@@ -125,7 +125,7 @@ public class DialogueWindow : Control {
 
 		lines.Clear();
 
-		HBoxContainer line = (HBoxContainer)linePrefab.Instance();
+		HBoxContainer line = (HBoxContainer)linePrefab.Instantiate();
 		line.GetNode<Control>("Control").Visible = false;
 
 		Label textLabel = line.GetNode<Label>("Label");
@@ -147,7 +147,7 @@ public class DialogueWindow : Control {
 				l.Hide();
 				l.CallDeferred("queue_free");
 			}
-			// lineContainer.RectSize = new Vector2(lineContainer.RectSize.x, 0);
+			// lineContainer.RectSize = new Vector2(lineContainer.RectSize.X, 0);
 			// lineContainer.RectPosition = new Vector2(0, 0);
 		}
 	}
@@ -162,7 +162,7 @@ public class DialogueWindow : Control {
 		string text = "";
 		int optionIndex = 0;
 		foreach (DialogueOption option in dialogue.CurrentNode.options) {
-			HBoxContainer line = (HBoxContainer)linePrefab.Instance();
+			HBoxContainer line = (HBoxContainer)linePrefab.Instantiate();
 
 			Label textLabel = line.GetNode<Label>("Label");
 
@@ -174,8 +174,8 @@ public class DialogueWindow : Control {
 			int opt = optionIndex;
 			newLine.onClick += () => DialogueSystem.SelectOption(opt);
 			newLine.MouseFilter = MouseFilterEnum.Pass;
-			newLine.RectMinSize = line.RectSize;
-			newLine.RectPosition = line.RectPosition;
+			newLine.CustomMinimumSize = line.Size;
+			newLine.Position = line.Position;
 			linesDebug.Add(newLine);
 			textLabel.AddChild(newLine);
 
@@ -196,7 +196,7 @@ public class DialogueWindow : Control {
 		ClearLines();
 
 		lines.Clear();
-		HBoxContainer line = (HBoxContainer)linePrefab.Instance();
+		HBoxContainer line = (HBoxContainer)linePrefab.Instantiate();
 		line.GetNode<Control>("Control").Visible = false;
 
 		Label textLabel = line.GetNode<Label>("Label");
@@ -224,8 +224,8 @@ public class DialogueWindow : Control {
 		return Regex.Replace(text, pattern, "");
 	}
 
-	override public void _Process(float delta) {
-		Update();
+	override public void _Process(double delta) {
+		QueueRedraw();
 	}
 
 	override public void _Draw() {

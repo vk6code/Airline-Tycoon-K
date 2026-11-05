@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class MouseArea : Area2D, IInteractionLayer {
+public partial class MouseArea : Area2D, IInteractionLayer {
 	[Export]
 	public bool isExitToAirport = false;
 
@@ -23,8 +23,8 @@ public class MouseArea : Area2D, IInteractionLayer {
 			AddChild(area);
 		}
 
-		Connect("mouse_entered", this, nameof(MouseEntered));
-		Connect("mouse_exited", this, nameof(MouseExited));
+		Connect("mouse_entered", new Callable(this, nameof(MouseEntered)));
+		Connect("mouse_exited", new Callable(this, nameof(MouseExited)));
 	}
 
 	public void MouseEntered() {
