@@ -272,4 +272,4 @@ BASE/
 BUILDS/
 .import/
 .mono/
-Images/
+Images/.godot/
